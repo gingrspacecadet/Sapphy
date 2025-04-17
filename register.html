@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sapphy | Register</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="register-container">
+        <form onsubmit="return register()">
+            <h1>Register</h1>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required />
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required />
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required />
+
+            <button type="submit" action="register()">Register</button>
+        </form>
+    </div>
+    <script src="scripts.js"></script>
+    <footer>
+        <p>&copy; 2025 Sapphy. All rights reserved.</p>
+    </footer>
+</body>
