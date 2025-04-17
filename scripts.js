@@ -9,7 +9,7 @@ async function register() {
     }
 
     try {
-        const response = await fetch("/register", {
+        const response = await fetch("https://register.sapphy.workers.dev", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
