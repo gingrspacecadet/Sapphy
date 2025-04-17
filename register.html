@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="register-container">
-        <form id="registerForm" action="https://register.sapphy.workers.dev" method="POST">
+        <form id="registerForm" onsubmit="return register()">
             <h1>Register</h1>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required />

@@ -9,7 +9,7 @@ async function register() {
     }
 
     try {
-        const response = await fetch("/register", {
+        const response = await fetch("https://register.sapphy.workers.dev/register", {
             method: "POST",  // Ensure you're using POST to send the data in the body
             headers: {
                 "Content-Type": "application/json"  // Send as JSON
