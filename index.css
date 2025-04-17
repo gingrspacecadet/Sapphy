@@ -1,0 +1,172 @@
+:root {
+  --rosewater: #f5e0dc;
+  --flamingo:  #f2cdcd;
+  --mauve:     #cba6f7;
+  --pink:      #f5c2e7;
+  --maroon:    #eba0ac;
+  --red:       #f38ba8;
+  --peach:     #fab387;
+  --yellow:    #f9e2af;
+  --green:     #a6e3a1;
+  --teal:      #94e2d5;
+  --blue:      #89b4fa;
+  --sky:       #89dceb;
+  --sapphire:  #74c7ec;
+  --lavender:  #b4befe;
+  --text:      #cdd6f4;
+  --subtext:   #bac2de;
+  --overlay:   #6c7086;
+  --surface:   #313244;
+  --base:      #1e1e2e;
+  --mantle:    #181825;
+  --crust:     #11111b;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--base);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+header {
+  background-color: var(--mantle);
+  color: var(--lavender);
+  padding: 30px 0;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  animation: slideDown 1s ease-out;
+}
+
+nav a {
+  margin: 0 15px;
+  color: var(--subtext);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--pink);
+}
+
+.container {
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+section {
+  margin-bottom: 60px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 2px solid var(--overlay);
+  padding-bottom: 5px;
+  color: var(--mauve);
+}
+
+.project {
+  margin-top: 15px;
+  background-color: var(--surface);
+  padding: 15px;
+  border-left: 5px solid var(--blue);
+  transition: transform 0.3s ease;
+}
+
+.project:hover {
+  transform: translateY(-5px);
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: var(--mantle);
+  color: var(--overlay);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: var(--pink);
+}
+
+header h1 {
+  font-size: 40px;
+  transition: transform 0.2s;
+  display: inline-block;
+  cursor: pointer;
+}
+
+header h1:hover {
+    transform: scale(1.5) translate(0px, -10px);
+}
+
+.project .title {
+  font-size: 18px;
+  font-weight: bold;
+  background-color: var(--surface);
+  padding: 15px;
+  cursor: pointer;
+  color: var(--text);
+  transition: background-color 0.3s;
+}
+
+.project .title:hover {
+  background-color: var(--overlay);
+}
+
+.project .content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background-color: var(--surface);
+  padding: 0 15px;
+}
+
+.project .content p {
+  margin: 15px 0;
+  background-color: var(--surface);
+}
+
+.project .content.open {
+  padding: 15px;
+  background-color: var(--surface);
+  display: flex;
+  align-items: center;
+}
+
+p {
+    font-size: 18px;
+}
