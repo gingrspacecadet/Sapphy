@@ -9,19 +9,19 @@ async function register() {
     }
 
     try {
-        const response = await fetch("https://register.sapphy.workers.dev", {
-            method: "POST",
+        const response = await fetch("/register", {
+            method: "POST",  // Ensure you're using POST to send the data in the body
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json"  // Send as JSON
             },
-            body: JSON.stringify({ username, password, email })
+            body: JSON.stringify({ username, email, password })  // Send the data
         });
 
         const result = await response.json();
 
         if (response.ok) {
             alert("Registration successful!");
-            // Optional: Redirect to login or home page
+            // Optionally: Redirect to login or another page
             // window.location.href = "/login.html";
         } else {
             alert(result.error || "Registration failed.");
