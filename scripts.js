@@ -19,11 +19,14 @@ async function register() {
 
         const result = await response.json();
 
-        if (response.ok) {
+        if (response.ok && result.success) {
             alert("Registration successful!");
+            if (result.redirectUrl) {
+                window.location.href = result.redirectUrl;
+            }
         } else {
             alert(result.error || "Registration failed.");
-        }
+        }        
     } catch (err) {
         console.error("Client error:", err);
         alert("Something went wrong. Please try again later.");
