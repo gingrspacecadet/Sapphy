@@ -9,30 +9,41 @@ async function register() {
     return false;
   }
 
+  const payload = { action: "register", username, password, email };
+  console.log("Register payload:", payload);
+
   try {
     const response = await fetch("https://register.sapphy.workers.dev/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        action: "register",
-        username,
-        password,
-        email
-      })
+      body: JSON.stringify(payload)
     });
 
-    const result = await response.json();
+    console.log("Raw response:", response);
+    const text = await response.text();
+    console.log("Response text:", text);
+
+    let result;
+    try {
+      result = JSON.parse(text);
+    } catch (e) {
+      console.error("Failed to parse JSON:", e);
+      alert("Invalid JSON response from server.");
+      return false;
+    }
+
+    console.log("Parsed result:", result);
 
     if (response.ok) {
       alert("Registration successful! You can now login.");
-      window.location.href = "login.html"; // Redirect to login page after registration
+      window.location.href = "login.html";
     } else {
       alert(result.error || "Registration failed.");
     }
   } catch (err) {
-    console.error("Client error:", err);
+    console.error("Network or CORS error:", err);
     alert("Something went wrong. Please try again later.");
   }
 
@@ -49,29 +60,40 @@ async function login() {
     return false;
   }
 
+  const payload = { action: "login", username, password };
+  console.log("Login payload:", payload);
+
   try {
     const response = await fetch("https://register.sapphy.workers.dev/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        action: "login",
-        username,
-        password
-      })
+      body: JSON.stringify(payload)
     });
 
-    const result = await response.json();
+    console.log("Raw response:", response);
+    const text = await response.text();
+    console.log("Response text:", text);
+
+    let result;
+    try {
+      result = JSON.parse(text);
+    } catch (e) {
+      console.error("Failed to parse JSON:", e);
+      alert("Invalid JSON response from server.");
+      return false;
+    }
+
+    console.log("Parsed result:", result);
 
     if (response.ok) {
-      alert("Login successful!");
-      window.location.href = "settings.html"; // Redirect to settings page after login
+      window.location.href = result.redirectUrl || "settings.html";
     } else {
       alert(result.error || "Login failed.");
     }
   } catch (err) {
-    console.error("Client error:", err);
+    console.error("Network or CORS error:", err);
     alert("Something went wrong. Please try again later.");
   }
 
