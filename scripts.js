@@ -13,7 +13,7 @@ async function register() {
   console.log("Register payload:", payload);
 
   try {
-    const response = await fetch("https://register.sapphy.workers.dev/register", {
+    const response = await fetch("https://register.sapphy.workers.dev", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -64,7 +64,7 @@ async function login() {
   console.log("Login payload:", payload);
 
   try {
-    const response = await fetch("https://register.sapphy.workers.dev/login", {
+    const response = await fetch("https://register.sapphy.workers.dev", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
