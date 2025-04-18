@@ -1,42 +1,46 @@
-// Register form submission
-async function register() {
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value;
-  const email = document.getElementById("email").value.trim();
+// Put your Worker URL here (no trailing path)
+const WORKER_URL = "https://register.sapphy.workers.dev";
 
-  if (!username || !password || !email) {
+//
+// -- Registration Handler --
+//
+async function handleRegister(event) {
+  event.preventDefault();  // <--- stop the form from navigating away
+
+  console.log("🔔 Register handler fired");
+  const username = document.getElementById("username").value.trim();
+  const email    = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  if (!username || !email || !password) {
     alert("Please fill in all fields.");
-    return false;
+    return;
   }
 
-  const payload = { action: "register", username, password, email };
+  const payload = { action: "register", username, email, password };
   console.log("Register payload:", payload);
 
   try {
-    const response = await fetch("https://register.sapphy.workers.dev", {
+    const response = await fetch(WORKER_URL, {
       method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      mode:   "cors",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
 
-    console.log("Raw response:", response);
+    console.log("Register raw response:", response);
     const text = await response.text();
-    console.log("Response text:", text);
+    console.log("Register response text:", text);
 
     let result;
-    try {
-      result = JSON.parse(text);
-    } catch (e) {
+    try { result = JSON.parse(text); }
+    catch (e) {
       console.error("Failed to parse JSON:", e);
-      alert("Invalid JSON response from server.");
-      return false;
+      alert("Invalid JSON from server.");
+      return;
     }
 
-    console.log("Parsed result:", result);
-
+    console.log("Register parsed result:", result);
     if (response.ok) {
       alert("Registration successful! You can now login.");
       window.location.href = "login.html";
@@ -44,59 +48,68 @@ async function register() {
       alert(result.error || "Registration failed.");
     }
   } catch (err) {
-    console.error("Network or CORS error:", err);
-    alert("Something went wrong. Please try again later.");
+    console.error("Network/CORS error during register:", err);
+    alert("Network error: check your console for details.");
   }
-
-  return false;
 }
 
-// Login form submission
-async function login() {
+//
+// -- Login Handler --
+//
+async function handleLogin(event) {
+  event.preventDefault();
+
+  console.log("🔔 Login handler fired");
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value;
 
   if (!username || !password) {
     alert("Please fill in both fields.");
-    return false;
+    return;
   }
 
   const payload = { action: "login", username, password };
   console.log("Login payload:", payload);
 
   try {
-    const response = await fetch("https://register.sapphy.workers.dev", {
+    const response = await fetch(WORKER_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      mode:   "cors",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
 
-    console.log("Raw response:", response);
+    console.log("Login raw response:", response);
     const text = await response.text();
-    console.log("Response text:", text);
+    console.log("Login response text:", text);
 
     let result;
-    try {
-      result = JSON.parse(text);
-    } catch (e) {
+    try { result = JSON.parse(text); }
+    catch (e) {
       console.error("Failed to parse JSON:", e);
-      alert("Invalid JSON response from server.");
-      return false;
+      alert("Invalid JSON from server.");
+      return;
     }
 
-    console.log("Parsed result:", result);
-
+    console.log("Login parsed result:", result);
     if (response.ok) {
       window.location.href = result.redirectUrl || "settings.html";
     } else {
       alert(result.error || "Login failed.");
     }
   } catch (err) {
-    console.error("Network or CORS error:", err);
-    alert("Something went wrong. Please try again later.");
+    console.error("Network/CORS error during login:", err);
+    alert("Network error: check your console for details.");
   }
-
-  return false;
 }
+
+//
+// — Attach event listeners once DOM is ready —
+//
+window.addEventListener("DOMContentLoaded", () => {
+  const regForm = document.getElementById("registerForm");
+  if (regForm) regForm.addEventListener("submit", handleRegister);
+
+  const loginForm = document.getElementById("loginForm");
+  if (loginForm) loginForm.addEventListener("submit", handleLogin);
+});
