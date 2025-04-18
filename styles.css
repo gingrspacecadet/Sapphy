@@ -195,3 +195,58 @@ p {
   background-color: var(--base);
   color: var(--text);
 }
+
+.register-container form button {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--mauve);
+  border: none;
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-container form {
+  background-color: var(--surface);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  width: 300px;
+}
+
+.login-container form input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid var(--overlay);
+  border-radius: 4px;
+  background-color: var(--base);
+  color: var(--text);
+}
+
+.login-container form button {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--mauve);
+  border: none;
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+form h1 {
+  margin-bottom: 10px;
+}
