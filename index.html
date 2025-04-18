@@ -18,12 +18,26 @@
 
   <div class="container">
     <section id="about">
-        <h2>About us</h2>
-        <p>Hello! We are a new, no-nonsense dating app for lesbians of all kinds!<br>
-           Whether you are a butch or a lipstick, AMAB or AFAB, everyone is welcome!</p>
+      <h2>About us</h2>
+      <p>Hello! We are a new, no-nonsense dating app for lesbians of all kinds!<br>Whether you are a butch or a lipstick, AMAB or AFAB, everyone is welcome!</p>
     </section>
   </div>
   <footer>
     <p>&copy; 2025 Sapphy. All rights reserved.</p>
   </footer>
+
+  <script>
+    // Scroll reveal animation
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('section').forEach(section => {
+      observer.observe(section);
+    });
+  </script>
 </body>

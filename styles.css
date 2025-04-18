@@ -81,18 +81,6 @@ h2 {
   color: var(--mauve);
 }
 
-.project {
-  margin-top: 15px;
-  background-color: var(--surface);
-  padding: 15px;
-  border-left: 5px solid var(--blue);
-  transition: transform 0.3s ease;
-}
-
-.project:hover {
-  transform: translateY(-5px);
-}
-
 footer {
   text-align: center;
   padding: 20px;
@@ -131,40 +119,6 @@ header h1 {
 
 header h1:hover {
     transform: scale(1.5) translate(0px, -10px);
-}
-
-.project .title {
-  font-size: 18px;
-  font-weight: bold;
-  background-color: var(--surface);
-  padding: 15px;
-  cursor: pointer;
-  color: var(--text);
-  transition: background-color 0.3s;
-}
-
-.project .title:hover {
-  background-color: var(--overlay);
-}
-
-.project .content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-  background-color: var(--surface);
-  padding: 0 15px;
-}
-
-.project .content p {
-  margin: 15px 0;
-  background-color: var(--surface);
-}
-
-.project .content.open {
-  padding: 15px;
-  background-color: var(--surface);
-  display: flex;
-  align-items: center;
 }
 
 p {
