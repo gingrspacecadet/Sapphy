@@ -220,3 +220,30 @@ p {
 form h1 {
   margin-bottom: 10px;
 }
+
+.name-row,
+.gender-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 1rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.register-container form select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid var(--overlay);
+  border-radius: 4px;
+  background-color: var(--base);
+  color: var(--text);
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
