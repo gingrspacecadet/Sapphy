@@ -15,6 +15,7 @@ async function register() {
   try {
     const response = await fetch("https://register.sapphy.workers.dev", {
       method: "POST",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json"
       },
