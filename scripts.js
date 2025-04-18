@@ -93,7 +93,7 @@ async function handleLogin(event) {
 
     console.log("Login parsed result:", result);
     if (response.ok) {
-      window.location.href = result.redirectUrl || "settings.html";
+      window.location.href = result.redirectUrl || "app.html";
     } else {
       alert(result.error || "Login failed.");
     }
