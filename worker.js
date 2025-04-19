@@ -11,7 +11,6 @@ export default {
   async fetch(request, env) {
     const { method } = request;
 
-    // Handle preflight
     if (method === "OPTIONS") {
       return new Response(null, {
         status: 204,
@@ -141,7 +140,7 @@ export default {
             headers: {
               ...corsHeaders,
               "Content-Type": "application/json",
-              "Set-Cookie": `userId=${user.id}; Path=/; Max-Age=2592000; SameSite=None; Secure; Domain=api.sapphy.workers.dev`
+              "Set-Cookie": `userId=${user.id}; Path=/; Max-Age=2592000; SameSite=None; Secure; Domain=api.sapphy.workers.dev`,
             },
           }
         );
