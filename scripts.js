@@ -73,21 +73,21 @@ async function handleRegister(event) {
 }
 
 //
-// -- Login Handler (Optional) --
+// -- Login Handler (email-based) --
 //
 async function handleLogin(event) {
   event.preventDefault();
 
   console.log("🔔 Login handler fired");
-  const username = document.getElementById("username").value.trim();
+  const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
-  if (!username || !password) {
+  if (!email || !password) {
     alert("Please fill in both fields.");
     return;
   }
 
-  const payload = { action: "login", username, password };
+  const payload = { action: "login", email, password };
   console.log("📦 Login payload:", payload);
 
   try {
