@@ -77,8 +77,8 @@ async function handleRegister(event) {
 //
 async function handleLogin(event) {
   event.preventDefault();
-
   console.log("🔔 Login handler fired");
+
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
@@ -102,6 +102,7 @@ async function handleLogin(event) {
     let result = JSON.parse(text);
 
     if (response.ok) {
+      document.cookie = `userId=${result.userId}; path=/; max-age=2592000; secure; SameSite=Strict`;
       window.location.href = result.redirectUrl || "app.html";
     } else {
       alert(result.error || "Login failed.");
