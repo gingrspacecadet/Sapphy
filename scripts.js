@@ -94,6 +94,7 @@ async function handleLogin(event) {
     const response = await fetch(WORKER_URL, {
       method: "POST",
       mode: "cors",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
