@@ -1,4 +1,4 @@
-const WORKER_URL = "https://register.sapphy.workers.dev";
+const WORKER_URL = "https://api.sapphy.workers.dev";
 
 //
 // -- Registration Handler --
