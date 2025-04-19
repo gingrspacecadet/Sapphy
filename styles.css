@@ -248,3 +248,63 @@ form h1 {
   -webkit-appearance: none;
   -moz-appearance: none;
 }
+
+.match-card {
+  background-color: var(--surface);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  animation: fadeIn 0.5s ease;
+  text-align: center;
+}
+
+.match-card h3 {
+  color: var(--mauve);
+  margin-bottom: 10px;
+}
+
+.match-card p {
+  color: var(--subtext);
+  margin-bottom: 15px;
+}
+
+.card-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.card-buttons button {
+  font-size: 24px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.3s;
+  background-color: var(--mantle);
+  color: var(--text);
+}
+
+.card-buttons button:hover {
+  transform: scale(1.2);
+}
+
+.card-buttons .like:hover {
+  background-color: var(--green);
+}
+
+.card-buttons .nope:hover {
+  background-color: var(--red);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

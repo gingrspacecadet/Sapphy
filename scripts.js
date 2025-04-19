@@ -61,7 +61,6 @@ async function handleRegister(event) {
     }
 
     if (response.ok) {
-      alert("✅ Registration successful! Redirecting to login...");
       window.location.href = "login.html";
     } else {
       alert(result.error || "❌ Registration failed.");

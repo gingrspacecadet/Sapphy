@@ -17,13 +17,33 @@ async function fetchMatches() {
     const matches = await response.json();
     console.log("🎯 Matches:", matches);
 
-    // You can now display them in your UI
     const container = document.getElementById("matches");
     container.innerHTML = "";
+
     matches.forEach(user => {
-      const div = document.createElement("div");
-      div.textContent = `${user.fname} ${user.lname} (${user.age}, ${user.city})`;
-      container.appendChild(div);
+      const card = document.createElement("div");
+      card.className = "match-card";
+
+      card.innerHTML = `
+        <h3>${user.fname} ${user.lname}</h3>
+        <p>${user.age} • ${user.city}, ${user.country}</p>
+        <div class="card-buttons">
+          <button class="nope">❌</button>
+          <button class="like">❤️</button>
+        </div>
+      `;
+
+      // Button logic
+      card.querySelector(".like").addEventListener("click", () => {
+        card.remove();
+        // Optionally handle "like"
+      });
+      card.querySelector(".nope").addEventListener("click", () => {
+        card.remove();
+        // Optionally handle "nope"
+      });
+
+      container.appendChild(card);
     });
 
   } catch (err) {
