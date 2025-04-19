@@ -103,51 +103,40 @@ export default {
 
       // LOGIN
       if (action === "login") {
-        // Fetch the user by email
         const user = await env.DB.prepare(
           "SELECT id, password FROM users WHERE email = ?"
         ).bind(email).first();
-
-        // If the user doesn't exist
+      
         if (!user) {
-          return new Response(
-            JSON.stringify({ error: "Email not found" }),
-            {
-              status: 404,
-              headers: { ...corsHeaders, "Content-Type": "application/json" },
-            }
-          );
+          return new Response(JSON.stringify({ error: "Email not found" }), {
+            status: 404,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
         }
-
-        // Verify the password
+      
         const ok = await verifyPassword(password, user.password);
         if (!ok) {
-          return new Response(
-            JSON.stringify({ error: "Wrong password" }),
-            {
-              status: 400,
-              headers: { ...corsHeaders, "Content-Type": "application/json" },
-            }
-          );
+          return new Response(JSON.stringify({ error: "Wrong password" }), {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
         }
-
-        // Set the userId cookie in the response headers
+      
         const userId = user.id;
-        return new Response(
-          JSON.stringify({
-            message: "Logged in",
-            success: true,
-            redirectUrl: "/app.html",
-          }),
-          {
-            status: 200,
-            headers: {
-              ...corsHeaders,
-              "Content-Type": "application/json",
-              "Set-Cookie": `userId=${userId}; Path=/; Max-Age=2592000; SameSite=None; Secure`,
-            },
-          }
-        );
+      
+        // Set cookie with explicit Domain
+        return new Response(JSON.stringify({
+          message: "Logged in",
+          success: true,
+          redirectUrl: "/app.html",
+        }), {
+          status: 200,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+            "Set-Cookie": `userId=${userId}; Path=/; Max-Age=2592000; SameSite=None; Secure; Domain=api.sapphy.workers.dev`,
+          },
+        });
       }
 
       return new Response(JSON.stringify({ error: "Invalid action" }), {
