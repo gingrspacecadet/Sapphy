@@ -15,7 +15,7 @@ function getCookie(name) {
     }
   
     try {
-      const res = await fetch("https://api.sapphy.workers.dev", {
+      const res = await fetch("https://sapphy.pages.dev/worker", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

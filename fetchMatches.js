@@ -1,4 +1,4 @@
-const MATCHES_URL = "https://api.sapphy.workers.dev";
+const MATCHES_URL = "https://sapphy.pages.dev/worker";
 
 async function fetchMatches() {
   try {
