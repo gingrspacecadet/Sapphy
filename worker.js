@@ -141,7 +141,7 @@ export default {
             headers: {
               ...corsHeaders,
               "Content-Type": "application/json",
-              "Set-Cookie": `userId=${user.id}; Path=/; Max-Age=2592000; SameSite=None; Secure`,
+              "Set-Cookie": `userId=${user.id}; Path=/; Max-Age=2592000; SameSite=None; Secure; Domain=.sapphy.workers.dev`
             },
           }
         );
