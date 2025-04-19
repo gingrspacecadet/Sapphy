@@ -4,6 +4,7 @@ async function fetchMatches() {
   try {
     const response = await fetch(MATCHES_URL, {
       method: "GET",
+      credentials: "include",
     });
 
     if (!response.ok) {
