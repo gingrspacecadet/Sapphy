@@ -4,7 +4,7 @@ async function fetchMatches() {
   try {
     const response = await fetch(MATCHES_URL, {
       method: "GET",
-      credentials: "include" // allows cookies to be sent
+      credentials: "include" // ✅ This ensures cookies like userId are sent with the request
     });
 
     if (!response.ok) {
@@ -18,7 +18,6 @@ async function fetchMatches() {
     console.log("🎯 Matches:", matches);
 
     // You can now display them in your UI
-    // Example:
     const container = document.getElementById("matches");
     container.innerHTML = "";
     matches.forEach(user => {
