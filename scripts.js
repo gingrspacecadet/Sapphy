@@ -102,7 +102,6 @@ async function handleLogin(event) {
     let result = JSON.parse(text);
 
     if (response.ok) {
-      document.cookie = `userId=${result.userId}; path=/; max-age=2592000; Secure; SameSite=None`;
       window.location.href = result.redirectUrl || "app.html";
     } else {
       alert(result.error || "Login failed.");
