@@ -108,6 +108,9 @@ export default {
           "SELECT id, password FROM users WHERE email = ?"
         ).bind(email).first();
 
+        // Log the result to see what's being returned
+        console.log('User query result:', user);  // Debugging
+
         // If the user doesn't exist
         if (!user) {
           return new Response(
@@ -131,8 +134,11 @@ export default {
           );
         }
 
-        // Set the user ID cookie to the corresponding user ID
+        // Ensure we're accessing the id correctly
         const userId = user.id;
+
+        // Log the userId to ensure it's correct
+        console.log('User ID:', userId);  // Debugging
 
         return new Response(
           JSON.stringify({
