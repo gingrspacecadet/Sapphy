@@ -27,10 +27,12 @@ export default {
       });
     }
 
-    const cookie = request.headers.get("Cookie") || "";
-    const match = cookie.match(/userId=(\d+)/);
+    // ⬇️ Robust cookie parsing
+    const cookieHeader = request.headers.get("Cookie") || "";
+    const cookies = Object.fromEntries(cookieHeader.split("; ").map(c => c.split("=")));
+    const userId = parseInt(cookies.userId);
 
-    if (!match) {
+    if (!userId) {
       return new Response(JSON.stringify({ error: "No user ID cookie found" }), {
         status: 401,
         headers: {
@@ -39,8 +41,6 @@ export default {
         },
       });
     }
-
-    const userId = parseInt(match[1]);
 
     try {
       const user = await env.DB.prepare("SELECT seeking FROM users WHERE id = ?")
