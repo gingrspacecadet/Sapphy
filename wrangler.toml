@@ -1,0 +1,12 @@
+name = "register"
+main = "worker.js"
+compatibility_date = "2024-04-17"
+
+account_id = "e6aba92e9aa0421804f64f17b0e07e26"
+workers_dev = true
+
+# Bind the D1 database
+[[d1_databases]]
+binding = "DB"
+database_name = "sapphy"
+database_id = "d7b6dba2-ea6c-4321-809c-7c44578a2b86"
