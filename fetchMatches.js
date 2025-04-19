@@ -33,14 +33,61 @@ async function fetchMatches() {
         </div>
       `;
 
-      // Button logic
+      // Add swipe logic
+      let startX = 0;
+      let startY = 0;
+
+      const handleTouchStart = (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      };
+
+      const handleTouchMove = (e) => {
+        const deltaX = e.touches[0].clientX - startX;
+        const deltaY = e.touches[0].clientY - startY;
+
+        // If it's a significant horizontal swipe
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+          card.style.transform = `translateX(${deltaX}px)`;
+        }
+      };
+
+      const handleTouchEnd = (e) => {
+        const deltaX = e.changedTouches[0].clientX - startX;
+
+        // If swipe is significant enough to trigger an action
+        if (Math.abs(deltaX) > 100) {
+          if (deltaX > 0) {
+            card.style.transform = `translateX(100%)`;
+            // Handle like action
+          } else {
+            card.style.transform = `translateX(-100%)`;
+            // Handle nope action
+          }
+          setTimeout(() => {
+            card.remove();
+          }, 300); // Wait for the card to exit before removing it
+        } else {
+          card.style.transform = `translateX(0)`;
+        }
+      };
+
+      card.addEventListener("touchstart", handleTouchStart);
+      card.addEventListener("touchmove", handleTouchMove);
+      card.addEventListener("touchend", handleTouchEnd);
+
+      // Button logic (for desktop)
       card.querySelector(".like").addEventListener("click", () => {
-        card.remove();
-        // Optionally handle "like"
+        card.style.transform = `translateX(100%)`;
+        setTimeout(() => {
+          card.remove();
+        }, 300);
       });
       card.querySelector(".nope").addEventListener("click", () => {
-        card.remove();
-        // Optionally handle "nope"
+        card.style.transform = `translateX(-100%)`;
+        setTimeout(() => {
+          card.remove();
+        }, 300);
       });
 
       container.appendChild(card);
