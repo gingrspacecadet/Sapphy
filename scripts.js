@@ -75,6 +75,19 @@ async function handleRegister(event) {
 //
 // -- Login Handler (email-based) --
 //
+Okay, let's modify the frontend and backend code to send the email upon login and set the userId cookie in the backend response.
+
+Frontend Modifications (login.html):
+
+JavaScript
+
+const WORKER_URL = "https://api.sapphy.workers.dev";
+
+// ... (handleRegister function remains the same) ...
+
+//
+// -- Login Handler (email-based) --
+//
 async function handleLogin(event) {
   event.preventDefault();
   console.log("🔔 Login handler fired");
@@ -99,9 +112,17 @@ async function handleLogin(event) {
     });
 
     const text = await response.text();
-    let result = JSON.parse(text);
+    let result;
+    try {
+      result = JSON.parse(text);
+    } catch (e) {
+      console.error("❌ Failed to parse JSON:", e);
+      alert("Invalid response from server.");
+      return;
+    }
 
     if (response.ok) {
+      // The backend should now handle setting the userId cookie
       window.location.href = result.redirectUrl || "app.html";
     } else {
       alert(result.error || "Login failed.");
