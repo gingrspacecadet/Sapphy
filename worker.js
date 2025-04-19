@@ -103,13 +103,10 @@ export default {
 
       // LOGIN
       if (action === "login") {
-        // Fetch the user by email and password
+        // Fetch the user by email
         const user = await env.DB.prepare(
           "SELECT id, password FROM users WHERE email = ?"
         ).bind(email).first();
-
-        // Log the result to see what's being returned
-        console.log('User query result:', user);  // Debugging
 
         // If the user doesn't exist
         if (!user) {
@@ -134,17 +131,12 @@ export default {
           );
         }
 
-        // Ensure we're accessing the id correctly
+        // Set the userId cookie in the response headers
         const userId = user.id;
-
-        // Log the userId to ensure it's correct
-        console.log('User ID:', userId);  // Debugging
-
         return new Response(
           JSON.stringify({
             message: "Logged in",
             success: true,
-            userId: userId,
             redirectUrl: "/app.html",
           }),
           {
@@ -167,7 +159,7 @@ export default {
     if (method === "GET") {
       const cookieHeader = request.headers.get("Cookie") || "";
       const cookies = Object.fromEntries(cookieHeader.split("; ").map(c => c.split("=")));
-      const userId = parseInt(cookies.userId);
+      const userId = cookies.userId;
 
       if (!userId) {
         return new Response(JSON.stringify({ error: "No user ID cookie found" }), {
@@ -220,6 +212,7 @@ async function hashPassword(pw) {
     .join("");
 }
 
+// Password verification
 async function verifyPassword(input, stored) {
   return (await hashPassword(input)) === stored;
 }
