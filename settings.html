@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sapphy | Settings</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>S</h1><h1>e</h1><h1>t</h1><h1>t</h1><h1>i</h1><h1>n</h1><h1>g</h1><h1>s</h1>
+    <nav>
+        <a href="/app.html">Back</a>
+        <a href="/settings.html">Settings</a>
+    </nav>
+  </header>
+
+  <div class="settings-container">
+    <form id="settings-form">
+      <h1>Settings</h1>
+      <label for="bio">Bio:</label>
+      <textarea type="text" id="bio" name="bio" maxlength="256"></textarea>
+      <p><span id="char-count">256</span>/256</p>
+
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+  
+  <script>
+    const textarea = document.getElementById('bio');
+    const count = document.getElementById('char-count');
+
+    textarea.addEventListener('input', () => {
+        count.textContent = 256 - textarea.value.length;
+    });
+  </script>
+  <script src="settings.js"></script>
+
+  <footer>
+    <p>&copy; 2025 Sapphy. All rights reserved.</p>
+  </footer>
+</body>

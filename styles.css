@@ -141,14 +141,14 @@ p {
     font-size: 18px;
 }
 
-.register-container {
+.register-container, .login-container, .settings-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
 
-.register-container form {
+.register-container form, .login-container form, .settings-container form {
   background-color: var(--surface);
   padding: 20px;
   border-radius: 8px;
@@ -156,7 +156,7 @@ p {
   width: 50%;
 }
 
-.register-container form input {
+.register-container form input, .login-container form input, .settings-container form textarea {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
@@ -166,45 +166,7 @@ p {
   color: var(--text);
 }
 
-.register-container form button {
-  width: 100%;
-  padding: 10px;
-  background-color: var(--mauve);
-  border: none;
-  border-radius: 4px;
-  color: var(--text);
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-}
-
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.login-container form {
-  background-color: var(--surface);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  width: 300px;
-}
-
-.login-container form input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid var(--overlay);
-  border-radius: 4px;
-  background-color: var(--base);
-  color: var(--text);
-}
-
-.login-container form button {
+.register-container form button, .login-container form button, .settings-container form button {
   width: 100%;
   padding: 10px;
   background-color: var(--mauve);
@@ -309,4 +271,10 @@ form h1 {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+textarea {
+  height: 30vh;
+  font-size: 24px;
+  resize: none;
 }

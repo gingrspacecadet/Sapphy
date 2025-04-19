@@ -139,6 +139,35 @@ export default {
         });
       }
 
+      // UPDATE BIO
+      if (action === "update_bio") {
+        const { userId, bio } = data;
+      
+        if (!userId || !bio) {
+          return new Response(JSON.stringify({ error: "Missing userId or bio" }), {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+      
+        try {
+          await env.DB.prepare("UPDATE users SET bio = ? WHERE id = ?")
+            .bind(bio, userId)
+            .run();
+      
+          return new Response(JSON.stringify({ message: "Bio updated", success: true }), {
+            status: 200,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        } catch (err) {
+          console.error("Bio update error:", err);
+          return new Response(JSON.stringify({ error: "Database error" }), {
+            status: 500,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+      }
+
       return new Response(JSON.stringify({ error: "Invalid action" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
