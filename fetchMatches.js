@@ -4,7 +4,6 @@ async function fetchMatches() {
   try {
     const response = await fetch(MATCHES_URL, {
       method: "GET",
-      credentials: "include" // ✅ This ensures cookies like userId are sent with the request
     });
 
     if (!response.ok) {
