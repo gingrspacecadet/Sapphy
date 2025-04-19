@@ -1,5 +1,3 @@
-const ALLOWED_ORIGIN = "https://sapphy.pages.dev";
-
 export default {
   async fetch(request, env) {
     const corsHeaders = {
@@ -18,6 +16,8 @@ export default {
     }
 
     const cookie = request.headers.get("Cookie") || "";
+    console.log("🍪 Cookies received:", cookie); // Debugging cookies
+
     const match = cookie.match(/userId=(\d+)/);
     if (!match) {
       return new Response(JSON.stringify({ error: "No user ID cookie found" }), {
@@ -27,7 +27,9 @@ export default {
     }
 
     const userId = parseInt(match[1]);
+    console.log("👤 User ID from cookie:", userId); // Debugging user ID extraction
 
+    // Query user details from DB using userId
     const user = await env.DB.prepare("SELECT seeking FROM users WHERE id = ?")
       .bind(userId)
       .first();
