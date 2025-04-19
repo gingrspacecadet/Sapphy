@@ -103,10 +103,12 @@ export default {
 
       // LOGIN
       if (action === "login") {
+        // Fetch the user by email and password
         const user = await env.DB.prepare(
           "SELECT id, password FROM users WHERE email = ?"
         ).bind(email).first();
 
+        // If the user doesn't exist
         if (!user) {
           return new Response(
             JSON.stringify({ error: "Email not found" }),
@@ -117,6 +119,7 @@ export default {
           );
         }
 
+        // Verify the password
         const ok = await verifyPassword(password, user.password);
         if (!ok) {
           return new Response(
@@ -128,11 +131,14 @@ export default {
           );
         }
 
+        // Set the user ID cookie to the corresponding user ID
+        const userId = user.id;
+
         return new Response(
           JSON.stringify({
             message: "Logged in",
             success: true,
-            userId: user.id,
+            userId: userId,
             redirectUrl: "/app.html",
           }),
           {
@@ -140,7 +146,7 @@ export default {
             headers: {
               ...corsHeaders,
               "Content-Type": "application/json",
-              "Set-Cookie": `userId=${user.id}; Path=/; Max-Age=2592000; SameSite=None; Secure; Domain=api.sapphy.workers.dev`,
+              "Set-Cookie": `userId=${userId}; Path=/; Max-Age=2592000; SameSite=None; Secure; Domain=api.sapphy.workers.dev`,
             },
           }
         );
