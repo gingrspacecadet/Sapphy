@@ -28,8 +28,8 @@
           <label for="gender">Gender:</label>
           <select id="gender" name="gender" required>
             <option value="" disabled selected>REQUIRED</option>
-            <option value="AMAB">AMAB</option>
-            <option value="AFAB">AFAB</option>
+            <option value="trans">Trans</option>
+            <option value="cis">Cis</option>
           </select>
         </div>
       
@@ -37,19 +37,37 @@
           <label for="seeking">Seeking:</label>
           <select id="seeking" name="seeking" required>
             <option value="" disabled selected>REQUIRED</option>
-            <option value="AMAB">AMAB</option>
-            <option value="AFAB">AFAB</option>
-            <option value="BOTH">BOTH</option>
+            <option value="trans">Trans</option>
+            <option value="cis">Cis</option>
+            <option value="both">Both</option>
           </select>
         </div>
       </div>
 
-      <label for="age">Age:</label>
-      <input type="text" id="age" name="age" required/>
-
-      <label for="location">Location:</label>
-      <input type="text" id="location" name="location" required placeholder="Nearest city to your place of residence"/>
-
+      <div class="input-group">
+        <label for="age">Age:</label>
+        <select id="age" name="age" required>
+          <option value="" disabled selected>REQUIRED</option>
+        </select>
+      </div>
+      
+      
+      <div class="location-row">
+        <div class="input-group">
+          <label for="country">Country:</label>
+          <select id="country" name="country" required>
+            <option value="" disabled selected>REQUIRED</option>
+          </select>
+        </div>
+      
+        <div class="input-group">
+          <label for="city">City:</label>
+          <select id="city" name="city" required disabled>
+            <option value="" disabled selected>REQUIRED</option>
+          </select>
+        </div>
+      </div>
+      
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" required/>
 
@@ -61,6 +79,22 @@
   </div>
 
   <script src="scripts.js"></script>
+  <script src="location.js"></script>
+  <script>
+    const ageSelect = document.getElementById('age');
+    for (let i = 18; i <= 99; i++) {
+      const option = document.createElement('option');
+      option.value = i;
+      option.textContent = i;
+      ageSelect.appendChild(option);
+    }
+  
+    const option100plus = document.createElement('option');
+    option100plus.value = "100+";
+    option100plus.textContent = "100+";
+    ageSelect.appendChild(option100plus);
+  </script>
+  
   <footer>
     <p>&copy; 2025 Sapphy. All rights reserved.</p>
   </footer>

@@ -1,4 +1,3 @@
-// Put your Worker URL here (no trailing path)
 const WORKER_URL = "https://register.sapphy.workers.dev";
 
 //

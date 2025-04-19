@@ -222,7 +222,8 @@ form h1 {
 }
 
 .name-row,
-.gender-row {
+.gender-row,
+.location-row {
   display: flex;
   gap: 20px;
   margin-bottom: 1rem;
