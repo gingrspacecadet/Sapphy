@@ -10,3 +10,6 @@ workers_dev = true
 binding = "DB"
 database_name = "sapphy"
 database_id = "d7b6dba2-ea6c-4321-809c-7c44578a2b86"
+
+[observability.logs]
+enabled = true
