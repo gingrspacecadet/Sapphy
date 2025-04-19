@@ -33,3 +33,7 @@ async function fetchMatches() {
 }
 
 window.addEventListener("DOMContentLoaded", fetchMatches);
+
+window.addEventListener('beforeunload', function () {
+  document.cookie = "userId=; Path=/; Max-Age=0; SameSite=None; Secure; Domain=api.sapphy.workers.dev";
+});
