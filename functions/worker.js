@@ -1,12 +1,5 @@
 const ALLOWED_ORIGIN = "https://sapphy.pages.dev";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-  "Access-Control-Allow-Credentials": "true",
-};
-
 export async function onRequest(context) {
   const { request, env } = context;
   const { method } = request;
@@ -14,14 +7,13 @@ export async function onRequest(context) {
   if (method === "OPTIONS") {
     return new Response(null, {
       status: 204,
-      headers: corsHeaders,
     });
   }
 
   if (!env.DB) {
     return new Response(JSON.stringify({ error: "DB not configured" }), {
       status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      headers: {"Content-Type": "application/json" },
     });
   }
 
@@ -32,7 +24,6 @@ export async function onRequest(context) {
     } catch {
       return new Response("Bad JSON", {
         status: 400,
-        headers: corsHeaders,
       });
     }
 
@@ -54,7 +45,7 @@ export async function onRequest(context) {
         JSON.stringify({ error: "Missing required fields" }),
         {
           status: 400,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          headers: {"Content-Type": "application/json" },
         }
       );
     }
@@ -66,7 +57,7 @@ export async function onRequest(context) {
           JSON.stringify({ error: "Missing registration fields" }),
           {
             status: 400,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
+            headers: {"Content-Type": "application/json" },
           }
         );
       }
@@ -80,7 +71,7 @@ export async function onRequest(context) {
           JSON.stringify({ error: "Email already registered" }),
           {
             status: 400,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
+            headers: {"Content-Type": "application/json" },
           }
         );
       }
@@ -96,7 +87,7 @@ export async function onRequest(context) {
         JSON.stringify({ message: "Registered", success: true }),
         {
           status: 200,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          headers: {"Content-Type": "application/json" },
         }
       );
     }
@@ -110,7 +101,7 @@ export async function onRequest(context) {
       if (!user) {
         return new Response(JSON.stringify({ error: "Email not found" }), {
           status: 404,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          headers: {"Content-Type": "application/json" },
         });
       }
     
@@ -118,13 +109,12 @@ export async function onRequest(context) {
       if (!ok) {
         return new Response(JSON.stringify({ error: "Wrong password" }), {
           status: 400,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          headers: {"Content-Type": "application/json" },
         });
       }
     
-      const userId = user.id;
+      const email = user.email;
     
-      // Set cookie with explicit Domain
       return new Response(JSON.stringify({
         message: "Logged in",
         success: true,
@@ -132,9 +122,8 @@ export async function onRequest(context) {
       }), {
         status: 200,
         headers: {
-          ...corsHeaders,
           "Content-Type": "application/json",
-          "Set-Cookie": `userId=${userId}; Path=/; Max-Age=2592000; SameSite=None; Secure; Domain=api.sapphy.workers.dev`,
+          "Set-Cookie": `email=${email}; Path=/; Max-Age=2592000; SameSite=None; Secure;`,
         },
       });
     }
@@ -146,7 +135,7 @@ export async function onRequest(context) {
       if (!userId || !bio) {
         return new Response(JSON.stringify({ error: "Missing userId or bio" }), {
           status: 400,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          headers: {"Content-Type": "application/json" },
         });
       }
     
@@ -157,20 +146,20 @@ export async function onRequest(context) {
     
         return new Response(JSON.stringify({ message: "Bio updated", success: true }), {
           status: 200,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          headers: {"Content-Type": "application/json" },
         });
       } catch (err) {
         console.error("Bio update error:", err);
         return new Response(JSON.stringify({ error: "Database error" }), {
           status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          headers: {"Content-Type": "application/json" },
         });
       }
     }
 
     return new Response(JSON.stringify({ error: "Invalid action" }), {
       status: 400,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      headers: {"Content-Type": "application/json" },
     });
   }
 
@@ -182,7 +171,7 @@ export async function onRequest(context) {
     if (!userId) {
       return new Response(JSON.stringify({ error: "No user ID cookie found" }), {
         status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json" },
       });
     }
 
@@ -194,7 +183,7 @@ export async function onRequest(context) {
       if (!user) {
         return new Response(JSON.stringify({ error: "User not found" }), {
           status: 404,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          headers: {"Content-Type": "application/json" },
         });
       }
 
@@ -204,19 +193,19 @@ export async function onRequest(context) {
 
       return new Response(JSON.stringify(matches.results), {
         status: 200,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json" },
       });
     } catch (err) {
       return new Response(JSON.stringify({ error: "Internal Server Error" }), {
         status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json" },
       });
     }
   }
 
   return new Response(JSON.stringify({ error: "Method Not Allowed" }), {
     status: 405,
-    headers: { ...corsHeaders, "Content-Type": "application/json" },
+    headers: {"Content-Type": "application/json" },
   });
 }
 
