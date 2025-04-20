@@ -121,6 +121,9 @@ async function fetchMatches() {
           return;
         }
       
+        console.log("User email:", userEmail);
+        console.log("Match email:", matchEmail);
+
         console.log("Email from cookies:", email);  // Make sure this is correct
         const response = await fetch(MATCHES_URL, {
           method: "POST",
