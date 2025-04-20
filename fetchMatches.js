@@ -27,11 +27,12 @@ async function fetchMatches() {
       card.innerHTML = `
         <h3>${user.fname} ${user.lname}</h3>
         <p>${user.age} • ${user.city}, ${user.country}</p>
+        <p class="bio">${user.bio || "No bio available."}</p>
         <div class="card-buttons">
           <button class="nope">❌</button>
           <button class="like">❤️</button>
         </div>
-      `;
+      `;    
 
       // Add swipe logic
       let startX = 0;
