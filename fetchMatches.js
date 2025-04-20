@@ -121,7 +121,7 @@ async function fetchMatches() {
           return;
         }
       
-        console.log("User email:", userEmail);
+        console.log("User email:", email);
         console.log("Match email:", matchEmail);
 
         console.log("Email from cookies:", email);  // Make sure this is correct
