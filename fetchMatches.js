@@ -102,23 +102,31 @@ async function fetchMatches() {
 
       container.appendChild(card);
       // Function to record the swipe action
-      async function recordSwipe(userEmail, matchEmail, swipeType) {
+      async function recordSwipe(targetEmail, action) {
+        // Get the current user's email from the cookies
+        const email = getEmailFromCookies();  // You can create this helper function or use existing code
+      
+        if (!email) {
+          console.error("User email is missing");
+          return;
+        }
+      
         const response = await fetch(MATCHES_URL, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({
-            action: 'record_swipe',
-            email: userEmail,
-            matchEmail: matchEmail,
-            swipeType: swipeType
+            action: action,           // 'like' or 'nope'
+            targetEmail: targetEmail, // The email of the person being swiped on
+            email: email,             // Current user's email (to record the swipe)
           }),
         });
       
-        const data = await response.json();
         if (!response.ok) {
-          console.error("Failed to record swipe:", data.error);
+          console.error("Failed to record swipe:", await response.text());
         } else {
-          console.log("Swipe recorded:", data.message);
+          console.log("Swipe recorded successfully.");
         }
       }
     });
@@ -130,3 +138,12 @@ async function fetchMatches() {
 }
 
 window.addEventListener("DOMContentLoaded", fetchMatches);
+
+function getEmailFromCookies() {
+  const cookies = document.cookie.split('; ');
+  const emailCookie = cookies.find(cookie => cookie.startsWith('email='));
+  if (emailCookie) {
+    return decodeURIComponent(emailCookie.split('=')[1]);
+  }
+  return null;
+}
