@@ -122,7 +122,7 @@ async function fetchMatches() {
         }
       
         console.log("User email:", email);
-        console.log("Match email:", matchEmail);
+        console.log("Match email:", taretEmail);
 
         console.log("Email from cookies:", email);  // Make sure this is correct
         const response = await fetch(MATCHES_URL, {
