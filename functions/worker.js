@@ -144,6 +144,38 @@ export async function onRequest(context) {
       }
     }
 
+    if (action === "record_swipe") {
+      const { email, matchEmail, swipeType } = data;
+    
+      if (!email || !matchEmail || !swipeType) {
+        return new Response(JSON.stringify({ error: "Missing required fields" }), {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    
+      // Store the swipe in the database
+      try {
+        await env.DB.prepare(
+          `INSERT INTO swipes (user_email, match_email, swipe_type) 
+           VALUES (?, ?, ?) 
+           ON CONFLICT(user_email, match_email) 
+           DO UPDATE SET swipe_type = ?`
+        ).bind(email, matchEmail, swipeType, swipeType).run();
+    
+        return new Response(JSON.stringify({ message: "Swipe recorded", success: true }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        });
+      } catch (err) {
+        console.error("Error recording swipe:", err);
+        return new Response(JSON.stringify({ error: "Database error" }), {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    }    
+
     return new Response(JSON.stringify({ error: "Invalid action" }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
@@ -153,19 +185,22 @@ export async function onRequest(context) {
   // GET matches
   if (method === "GET") {
     const user = await getUserFromCookies(request, env);
-
+  
     if (!user) {
       return new Response(JSON.stringify({ error: "Invalid or missing cookies" }), {
         status: 401,
         headers: { "Content-Type": "application/json" },
       });
     }
-
+  
     try {
+      // Get users that the current user hasn't swiped on (liked or noped)
       const matches = await env.DB.prepare(
-        "SELECT * FROM users WHERE gender = ? AND email != ?"
-      ).bind(user.seeking, user.email).all();
-
+        `SELECT * FROM users 
+         WHERE gender = ? AND email != ? 
+         AND email NOT IN (SELECT match_email FROM swipes WHERE user_email = ?)`
+      ).bind(user.seeking, user.email, user.email).all();
+  
       return new Response(JSON.stringify(matches.results), {
         status: 200,
         headers: { "Content-Type": "application/json" },
@@ -176,13 +211,7 @@ export async function onRequest(context) {
         headers: { "Content-Type": "application/json" },
       });
     }
-  }
-
-  return new Response(JSON.stringify({ error: "Method Not Allowed" }), {
-    status: 405,
-    headers: { "Content-Type": "application/json" },
-  });
-}
+  }  
 
 // Password hashing
 async function hashPassword(pw) {

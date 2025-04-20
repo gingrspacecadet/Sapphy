@@ -78,20 +78,48 @@ async function fetchMatches() {
       card.addEventListener("touchend", handleTouchEnd);
 
       // Button logic (for desktop)
-      card.querySelector(".like").addEventListener("click", () => {
+      card.querySelector(".like").addEventListener("click", async () => {
         card.style.transform = `translateX(100%)`;
+      
+        // Send a request to record the like
+        await recordSwipe(user.email, matchEmail, 'like');
+      
         setTimeout(() => {
           card.remove();
         }, 300);
       });
-      card.querySelector(".nope").addEventListener("click", () => {
+      
+      card.querySelector(".nope").addEventListener("click", async () => {
         card.style.transform = `translateX(-100%)`;
+      
+        // Send a request to record the nope
+        await recordSwipe(user.email, matchEmail, 'nope');
+      
         setTimeout(() => {
           card.remove();
         }, 300);
       });
-
-      container.appendChild(card);
+      
+      // Function to record the swipe action
+      async function recordSwipe(userEmail, matchEmail, swipeType) {
+        const response = await fetch(MATCHES_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: 'record_swipe',
+            email: userEmail,
+            matchEmail: matchEmail,
+            swipeType: swipeType
+          }),
+        });
+      
+        const data = await response.json();
+        if (!response.ok) {
+          console.error("Failed to record swipe:", data.error);
+        } else {
+          console.log("Swipe recorded:", data.message);
+        }
+      }      
     });
 
   } catch (err) {
