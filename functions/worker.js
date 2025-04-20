@@ -144,26 +144,26 @@ export async function onRequest(context) {
       }
     }
 
+    // RECORD SWIPE
     if (action === "record_swipe") {
-      const { email, matchEmail, swipeType } = data;
-    
-      console.log('Request body:', data);
-      if (!email || !matchEmail || !swipeType) {
+      const { email, targetEmail, swipeType } = data;
+
+      if (!email || !targetEmail || !swipeType) {
         return new Response(JSON.stringify({ error: "Missing required fields" }), {
           status: 400,
           headers: { "Content-Type": "application/json" },
         });
       }
-    
-      // Store the swipe in the database
+
       try {
+        // Insert or update the swipe record in the database
         await env.DB.prepare(
           `INSERT INTO swipes (user_email, match_email, swipe_type) 
-           VALUES (?, ?, ?) 
-           ON CONFLICT(user_email, match_email) 
-           DO UPDATE SET swipe_type = ?`
-        ).bind(email, matchEmail, swipeType, swipeType).run();
-    
+          VALUES (?, ?, ?) 
+          ON CONFLICT(user_email, match_email) 
+          DO UPDATE SET swipe_type = ?`
+        ).bind(email, targetEmail, swipeType, swipeType).run();
+
         return new Response(JSON.stringify({ message: "Swipe recorded", success: true }), {
           status: 200,
           headers: { "Content-Type": "application/json" },
@@ -175,7 +175,7 @@ export async function onRequest(context) {
           headers: { "Content-Type": "application/json" },
         });
       }
-    }    
+    }
 
     return new Response(JSON.stringify({ error: "Invalid action" }), {
       status: 400,

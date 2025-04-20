@@ -128,11 +128,12 @@ async function fetchMatches() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            action: action,           // 'like' or 'nope'
-            targetEmail: targetEmail, // The email of the person being swiped on
-            email: email,             // Current user's email (to record the swipe)
+            action: "record_swipe",  // This should be part of the request to indicate the action
+            email: email,            // Current user's email
+            matchEmail: targetEmail, // The email of the person being swiped on
+            swipeType: action,       // 'like' or 'nope'
           }),
-        });
+        });        
       
         if (!response.ok) {
           console.error("Failed to record swipe:", await response.text());
