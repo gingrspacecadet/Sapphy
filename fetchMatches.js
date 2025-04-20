@@ -133,7 +133,7 @@ async function fetchMatches() {
           body: JSON.stringify({
             action: "record_swipe",  // This should be part of the request to indicate the action
             email: email,            // Current user's email
-            matchEmail: targetEmail, // The email of the person being swiped on
+            targetEmail: targetEmail, // The email of the person being swiped on
             swipeType: action,       // 'like' or 'nope'
           }),
         });        
