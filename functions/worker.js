@@ -1,5 +1,3 @@
-const ALLOWED_ORIGIN = "https://sapphy.pages.dev";
-
 export async function onRequest(context) {
   const { request, env } = context;
   const { method } = request;
@@ -13,7 +11,7 @@ export async function onRequest(context) {
   if (!env.DB) {
     return new Response(JSON.stringify({ error: "DB not configured" }), {
       status: 500,
-      headers: {"Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
     });
   }
 
@@ -45,7 +43,7 @@ export async function onRequest(context) {
         JSON.stringify({ error: "Missing required fields" }),
         {
           status: 400,
-          headers: {"Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json" },
         }
       );
     }
@@ -57,7 +55,7 @@ export async function onRequest(context) {
           JSON.stringify({ error: "Missing registration fields" }),
           {
             status: 400,
-            headers: {"Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json" },
           }
         );
       }
@@ -71,7 +69,7 @@ export async function onRequest(context) {
           JSON.stringify({ error: "Email already registered" }),
           {
             status: 400,
-            headers: {"Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json" },
           }
         );
       }
@@ -87,7 +85,7 @@ export async function onRequest(context) {
         JSON.stringify({ message: "Registered", success: true }),
         {
           status: 200,
-          headers: {"Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json" },
         }
       );
     }
@@ -101,7 +99,7 @@ export async function onRequest(context) {
       if (!user) {
         return new Response(JSON.stringify({ error: "Email not found" }), {
           status: 404,
-          headers: {"Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json" },
         });
       }
     
@@ -109,11 +107,11 @@ export async function onRequest(context) {
       if (!ok) {
         return new Response(JSON.stringify({ error: "Wrong password" }), {
           status: 400,
-          headers: {"Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json" },
         });
       }
     
-      const email = user.email;
+      const userId = user.id;
     
       return new Response(JSON.stringify({
         message: "Logged in",
@@ -123,7 +121,7 @@ export async function onRequest(context) {
         status: 200,
         headers: {
           "Content-Type": "application/json",
-          "Set-Cookie": `email=${email}; Path=/; Max-Age=2592000; SameSite=None; Secure;`,
+          "Set-Cookie": `userId=${userId}; Path=/; Max-Age=2592000; SameSite=None; Secure;`,
         },
       });
     }
@@ -135,7 +133,7 @@ export async function onRequest(context) {
       if (!userId || !bio) {
         return new Response(JSON.stringify({ error: "Missing userId or bio" }), {
           status: 400,
-          headers: {"Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json" },
         });
       }
     
@@ -146,20 +144,20 @@ export async function onRequest(context) {
     
         return new Response(JSON.stringify({ message: "Bio updated", success: true }), {
           status: 200,
-          headers: {"Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json" },
         });
       } catch (err) {
         console.error("Bio update error:", err);
         return new Response(JSON.stringify({ error: "Database error" }), {
           status: 500,
-          headers: {"Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json" },
         });
       }
     }
 
     return new Response(JSON.stringify({ error: "Invalid action" }), {
       status: 400,
-      headers: {"Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
     });
   }
 
@@ -171,7 +169,7 @@ export async function onRequest(context) {
     if (!userId) {
       return new Response(JSON.stringify({ error: "No user ID cookie found" }), {
         status: 401,
-        headers: {"Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" },
       });
     }
 
@@ -183,7 +181,7 @@ export async function onRequest(context) {
       if (!user) {
         return new Response(JSON.stringify({ error: "User not found" }), {
           status: 404,
-          headers: {"Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json" },
         });
       }
 
@@ -193,19 +191,19 @@ export async function onRequest(context) {
 
       return new Response(JSON.stringify(matches.results), {
         status: 200,
-        headers: {"Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" },
       });
     } catch (err) {
       return new Response(JSON.stringify({ error: "Internal Server Error" }), {
         status: 500,
-        headers: {"Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" },
       });
     }
   }
 
   return new Response(JSON.stringify({ error: "Method Not Allowed" }), {
     status: 405,
-    headers: {"Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json" },
   });
 }
 
