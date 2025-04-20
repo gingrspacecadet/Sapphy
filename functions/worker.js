@@ -113,7 +113,7 @@ export async function onRequest(context) {
     if (action === "update_bio") {
       if (!bio) {
         return new Response(JSON.stringify({ error: "Missing bio" }), {
-          status: 400,
+          status: 402,
           headers: { "Content-Type": "application/json" },
         });
       }
