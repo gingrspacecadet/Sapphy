@@ -111,7 +111,7 @@ export async function onRequest(context) {
         });
       }
     
-      const userId = user.id;
+      const cookieOptions = "Path=/; Max-Age=2592000; SameSite=None; Secure;";
     
       return new Response(JSON.stringify({
         message: "Logged in",
@@ -121,10 +121,13 @@ export async function onRequest(context) {
         status: 200,
         headers: {
           "Content-Type": "application/json",
-          "Set-Cookie": `userId=${userId}; Path=/; Max-Age=2592000; SameSite=None; Secure;`,
+          "Set-Cookie": [
+            `email=${encodeURIComponent(email)}; ${cookieOptions}`,
+            `password=${user.password}; ${cookieOptions}`
+          ].join('\n'),
         },
       });
-    }
+    }    
 
     // UPDATE BIO
     if (action === "update_bio") {
