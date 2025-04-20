@@ -244,3 +244,4 @@ async function getUserFromCookies(request, env) {
 
   return user;
 }
+}
