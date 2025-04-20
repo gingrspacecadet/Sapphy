@@ -109,7 +109,6 @@ async function handleLogin(event) {
     }
 
     if (response.ok) {
-      // The backend should now handle setting the userId cookie
       window.location.href = result.redirectUrl || "app.html";
     } else {
       alert(result.error || "Login failed.");
