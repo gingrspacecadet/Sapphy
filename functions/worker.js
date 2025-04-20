@@ -148,12 +148,12 @@ export async function onRequest(context) {
     if (action === "record_swipe") {
       const { email, targetEmail, swipeType } = data;
 
-      if (!email || !targetEmail || !swipeType) {
-        return new Response(JSON.stringify({ error: "Missing required fields" }), {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        });
-      }
+      //if (!email || !targetEmail || !swipeType) {
+      //  return new Response(JSON.stringify({ error: "Missing required fields" }), {
+      //    status: 400,
+      //    headers: { "Content-Type": "application/json" },
+      //  });
+      //}
 
       try {
         // Insert or update the swipe record in the database
