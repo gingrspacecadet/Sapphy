@@ -12,33 +12,10 @@
         }
         ],
 
-        "observability": {
+    "observability": {
         "logs": {
             "enabled": true
         }
-        },
-        
-        "routes": [
-        {
-            "pattern": "/api/get_matches",
-            "handler": "api/get_matches/worker.js:onRequest"
-        },
-        {
-            "pattern": "/api/login",
-            "handler": "api/login/worker.js:onRequest"
-        },
-        {
-            "pattern": "/api/record_swipe",
-            "handler": "api/record_swipe/worker.js:onRequest"
-        },
-        {
-            "pattern": "/api/register",
-            "handler": "api/register/worker.js:onRequest"
-        },
-        {
-            "pattern": "/api/update_bio",
-            "handler": "api/update_bio/worker.js:onRequest"
         }
-    ]
 }
   

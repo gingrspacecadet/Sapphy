@@ -1,4 +1,4 @@
-import { hashPassword } from "./../../utils.js";
+import { hashPassword } from "../utils.js";
 
 export async function onRequest(context) {
     const { request, env } = context;
