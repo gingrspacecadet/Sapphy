@@ -3,9 +3,7 @@ export async function onRequest(context) {
   const { method } = request;
 
   if (method === "OPTIONS") {
-    return new Response(null, {
-      status: 204,
-    });
+    return new Response(null, { status: 204 });
   }
 
   if (!env.DB) {
@@ -20,9 +18,7 @@ export async function onRequest(context) {
     try {
       data = await request.json();
     } catch {
-      return new Response("Bad JSON", {
-        status: 400,
-      });
+      return new Response("Bad JSON", { status: 400 });
     }
 
     const {
@@ -36,28 +32,23 @@ export async function onRequest(context) {
       seeking,
       country,
       city,
+      bio
     } = data;
 
     if (!action || !email || !password) {
-      return new Response(
-        JSON.stringify({ error: "Missing required fields" }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      return new Response(JSON.stringify({ error: "Missing required fields" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     // REGISTER
     if (action === "register") {
       if (!fname || !lname || !age || !gender || !seeking || !country || !city) {
-        return new Response(
-          JSON.stringify({ error: "Missing registration fields" }),
-          {
-            status: 400,
-            headers: { "Content-Type": "application/json" },
-          }
-        );
+        return new Response(JSON.stringify({ error: "Missing registration fields" }), {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        });
       }
 
       const exists = await env.DB.prepare(
@@ -65,13 +56,10 @@ export async function onRequest(context) {
       ).bind(email).first();
 
       if (exists) {
-        return new Response(
-          JSON.stringify({ error: "Email already registered" }),
-          {
-            status: 400,
-            headers: { "Content-Type": "application/json" },
-          }
-        );
+        return new Response(JSON.stringify({ error: "Email already registered" }), {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        });
       }
 
       const hashed = await hashPassword(password);
@@ -81,28 +69,25 @@ export async function onRequest(context) {
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
       ).bind(email, hashed, fname, lname, age, gender, seeking, country, city).run();
 
-      return new Response(
-        JSON.stringify({ message: "Registered", success: true }),
-        {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      return new Response(JSON.stringify({ message: "Registered", success: true }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     // LOGIN
     if (action === "login") {
       const user = await env.DB.prepare(
-        "SELECT id, password FROM users WHERE email = ?"
+        "SELECT email, password FROM users WHERE email = ?"
       ).bind(email).first();
-    
+
       if (!user) {
         return new Response(JSON.stringify({ error: "Email not found" }), {
           status: 404,
           headers: { "Content-Type": "application/json" },
         });
       }
-    
+
       const ok = await verifyPassword(password, user.password);
       if (!ok) {
         return new Response(JSON.stringify({ error: "Wrong password" }), {
@@ -110,9 +95,8 @@ export async function onRequest(context) {
           headers: { "Content-Type": "application/json" },
         });
       }
-    
+
       const cookieOptions = "Path=/; Max-Age=2592000; SameSite=None; Secure;";
-    
       return new Response(JSON.stringify({
         message: "Logged in",
         success: true,
@@ -127,24 +111,30 @@ export async function onRequest(context) {
           ].join('\n'),
         },
       });
-    }    
+    }
 
     // UPDATE BIO
     if (action === "update_bio") {
-      const { userId, bio } = data;
-    
-      if (!userId || !bio) {
-        return new Response(JSON.stringify({ error: "Missing userId or bio" }), {
+      if (!bio) {
+        return new Response(JSON.stringify({ error: "Missing bio" }), {
           status: 400,
           headers: { "Content-Type": "application/json" },
         });
       }
-    
+
+      const user = await getUserFromCookies(request, env);
+      if (!user) {
+        return new Response(JSON.stringify({ error: "Invalid or missing cookies" }), {
+          status: 401,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+
       try {
-        await env.DB.prepare("UPDATE users SET bio = ? WHERE id = ?")
-          .bind(bio, userId)
+        await env.DB.prepare("UPDATE users SET bio = ? WHERE email = ?")
+          .bind(bio, user.email)
           .run();
-    
+
         return new Response(JSON.stringify({ message: "Bio updated", success: true }), {
           status: 200,
           headers: { "Content-Type": "application/json" },
@@ -164,33 +154,21 @@ export async function onRequest(context) {
     });
   }
 
+  // GET matches
   if (method === "GET") {
-    const cookieHeader = request.headers.get("Cookie") || "";
-    const cookies = Object.fromEntries(cookieHeader.split("; ").map(c => c.split("=")));
-    const userId = cookies.userId;
+    const user = await getUserFromCookies(request, env);
 
-    if (!userId) {
-      return new Response(JSON.stringify({ error: "No user ID cookie found" }), {
+    if (!user) {
+      return new Response(JSON.stringify({ error: "Invalid or missing cookies" }), {
         status: 401,
         headers: { "Content-Type": "application/json" },
       });
     }
 
     try {
-      const user = await env.DB.prepare("SELECT seeking FROM users WHERE id = ?")
-        .bind(userId)
-        .first();
-
-      if (!user) {
-        return new Response(JSON.stringify({ error: "User not found" }), {
-          status: 404,
-          headers: { "Content-Type": "application/json" },
-        });
-      }
-
       const matches = await env.DB.prepare(
-        "SELECT * FROM users WHERE gender = ? AND id != ?"
-      ).bind(user.seeking, userId).all();
+        "SELECT * FROM users WHERE gender = ? AND email != ?"
+      ).bind(user.seeking, user.email).all();
 
       return new Response(JSON.stringify(matches.results), {
         status: 200,
@@ -222,4 +200,22 @@ async function hashPassword(pw) {
 // Password verification
 async function verifyPassword(input, stored) {
   return (await hashPassword(input)) === stored;
+}
+
+// Get user from email/password cookies
+async function getUserFromCookies(request, env) {
+  const cookieHeader = request.headers.get("Cookie") || "";
+  const cookies = Object.fromEntries(cookieHeader.split("; ").map(c => c.split("=")));
+
+  const email = decodeURIComponent(cookies.email || "");
+  const storedHash = cookies.password || "";
+
+  if (!email || !storedHash) return null;
+
+  const user = await env.DB.prepare("SELECT * FROM users WHERE email = ?")
+    .bind(email).first();
+
+  if (!user || user.password !== storedHash) return null;
+
+  return user;
 }
