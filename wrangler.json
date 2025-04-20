@@ -10,34 +10,34 @@
             "database_name": "sapphy",
             "database_id": "d7b6dba2-ea6c-4321-809c-7c44578a2b86"
         }
-    ],
+        ],
 
-    "observability": {
+        "observability": {
         "logs": {
             "enabled": true
         }
-    },
-    
-    "routes": [
+        },
+        
+        "routes": [
         {
-            "route": "/api/get_matches/worker",
-            "module": "api/get_matches/worker.js:onRequest"
+            "pattern": "/api/get_matches",
+            "handler": "api/get_matches/worker.js:onRequest"
         },
         {
-            "route": "/api/login/worker",
-            "module": "api/login/worker.js:onRequest"
+            "pattern": "/api/login",
+            "handler": "api/login/worker.js:onRequest"
         },
         {
-            "route": "/api/record_swipe/worker",
-            "module": "api/record_swipe/worker.js:onRequest"
+            "pattern": "/api/record_swipe",
+            "handler": "api/record_swipe/worker.js:onRequest"
         },
         {
-            "route": "/api/register/worker",
-            "module": "api/register/worker.js:onRequest"
+            "pattern": "/api/register",
+            "handler": "api/register/worker.js:onRequest"
         },
         {
-            "route": "/api/update_bio/worker",
-            "module": "api/update_bio/worker.js:onRequest"
+            "pattern": "/api/update_bio",
+            "handler": "api/update_bio/worker.js:onRequest"
         }
     ]
 }
