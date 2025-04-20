@@ -97,20 +97,16 @@ export async function onRequest(context) {
       }
 
       const cookieOptions = "Path=/; Max-Age=2592000; SameSite=None; Secure;";
+      const headers = new Headers();
+      headers.set("Content-Type", "application/json");
+      headers.append("Set-Cookie", `email=${encodeURIComponent(email)}; ${cookieOptions}`);
+      headers.append("Set-Cookie", `password=${user.password}; ${cookieOptions}`);
+      
       return new Response(JSON.stringify({
         message: "Logged in",
         success: true,
-        redirectUrl: "/app.html",
-      }), {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-          "Set-Cookie": [
-            `email=${encodeURIComponent(email)}; ${cookieOptions}`,
-            `password=${user.password}; ${cookieOptions}`
-          ].join('\n'),
-        },
-      });
+        redirectUrl: "/app.html"
+      }), { status: 200, headers });      
     }
 
     // UPDATE BIO
