@@ -1,5 +1,3 @@
-const MATCHES_URL = "https://sapphy.pages.dev/worker";
-
 async function fetchMatches() {
   try {
     const response = await fetch(MATCHES_URL, {
@@ -18,7 +16,14 @@ async function fetchMatches() {
     console.log("🎯 Matches:", matches);
 
     const container = document.getElementById("matches");
-    container.innerHTML = "";
+    container.innerHTML = ""; // Clear the existing container
+
+    if (matches.length === 0) {
+      const noMatchesMessage = document.createElement("p");
+      noMatchesMessage.innerText = "No more potential matches!";
+      container.appendChild(noMatchesMessage);
+      return;
+    }
 
     matches.forEach(user => {
       const card = document.createElement("div");
@@ -80,26 +85,20 @@ async function fetchMatches() {
       // Button logic (for desktop)
       card.querySelector(".like").addEventListener("click", async () => {
         card.style.transform = `translateX(100%)`;
-      
-        // Send a request to record the like
-        await recordSwipe(user.email, matchEmail, 'like');
-      
+        await recordSwipe(user.email, 'like');
         setTimeout(() => {
           card.remove();
         }, 300);
       });
-      
       card.querySelector(".nope").addEventListener("click", async () => {
         card.style.transform = `translateX(-100%)`;
-      
-        // Send a request to record the nope
-        await recordSwipe(user.email, matchEmail, 'nope');
-      
+        await recordSwipe(user.email, 'nope');
         setTimeout(() => {
           card.remove();
         }, 300);
       });
-      
+
+      container.appendChild(card);
       // Function to record the swipe action
       async function recordSwipe(userEmail, matchEmail, swipeType) {
         const response = await fetch(MATCHES_URL, {
@@ -119,7 +118,7 @@ async function fetchMatches() {
         } else {
           console.log("Swipe recorded:", data.message);
         }
-      }      
+      }
     });
 
   } catch (err) {
