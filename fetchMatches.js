@@ -101,6 +101,16 @@ async function fetchMatches() {
       });
 
       container.appendChild(card);
+      
+      function getEmailFromCookies() {
+        const cookies = document.cookie.split('; ');
+        const emailCookie = cookies.find(cookie => cookie.startsWith('email='));
+        if (emailCookie) {
+          return decodeURIComponent(emailCookie.split('=')[1]);
+        }
+        return null;
+      }
+
       // Function to record the swipe action
       async function recordSwipe(targetEmail, action) {
         // Get the current user's email from the cookies
@@ -111,6 +121,7 @@ async function fetchMatches() {
           return;
         }
       
+        console.log("Email from cookies:", email);  // Make sure this is correct
         const response = await fetch(MATCHES_URL, {
           method: "POST",
           headers: {
@@ -138,12 +149,3 @@ async function fetchMatches() {
 }
 
 window.addEventListener("DOMContentLoaded", fetchMatches);
-
-function getEmailFromCookies() {
-  const cookies = document.cookie.split('; ');
-  const emailCookie = cookies.find(cookie => cookie.startsWith('email='));
-  if (emailCookie) {
-    return decodeURIComponent(emailCookie.split('=')[1]);
-  }
-  return null;
-}

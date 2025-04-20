@@ -147,6 +147,7 @@ export async function onRequest(context) {
     if (action === "record_swipe") {
       const { email, matchEmail, swipeType } = data;
     
+      console.log('Request body:', data);
       if (!email || !matchEmail || !swipeType) {
         return new Response(JSON.stringify({ error: "Missing required fields" }), {
           status: 400,
