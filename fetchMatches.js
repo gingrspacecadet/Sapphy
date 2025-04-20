@@ -1,3 +1,5 @@
+let MATCHES_URL = "https://sapphy.pages.dev/worker";
+
 async function fetchMatches() {
   try {
     const response = await fetch(MATCHES_URL, {
