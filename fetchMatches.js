@@ -123,8 +123,8 @@ async function fetchMatches() {
       
         console.log("User email:", email);
         console.log("Match email:", targetEmail);
+        console.log("Swipe action:", action);
 
-        console.log("Email from cookies:", email);  // Make sure this is correct
         const response = await fetch(MATCHES_URL, {
           method: "POST",
           headers: {
