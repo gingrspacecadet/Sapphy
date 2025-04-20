@@ -26,3 +26,18 @@ export async function hashPassword(pw) {
       .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
 }
+
+export async function getMutualLikes(db, email) {
+    const statement = db.prepare(`
+      SELECT s1.match_email AS match
+      FROM swipes s1
+      JOIN swipes s2
+        ON s1.match_email = s2.user_email
+        AND s1.user_email = s2.match_email
+        AND s2.swipe_type = 'like'
+      WHERE s1.user_email = ?
+        AND s1.swipe_type = 'like'
+    `);
+    const result = await statement.all(email);
+    return result.results.map(r => r.match);
+}  

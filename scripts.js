@@ -1,4 +1,5 @@
-const WORKER_URL = "https://sapphy.pages.dev/worker";
+const REGISTER_URL = "https://sapphy.pages.dev/api/register";
+const LOGIN_URL = "https://sapphy.pages.dev/api/login";
 
 //
 // -- Registration Handler --
@@ -40,7 +41,7 @@ async function handleRegister(event) {
   console.log("📦 Register payload:", payload);
 
   try {
-    const response = await fetch(WORKER_URL, {
+    const response = await fetch(REGISTER_URL, {
       method: "POST",
       mode: "cors",
       headers: { "Content-Type": "application/json" },
@@ -90,7 +91,7 @@ async function handleLogin(event) {
   console.log("📦 Login payload:", payload);
 
   try {
-    const response = await fetch(WORKER_URL, {
+    const response = await fetch(LOGIN_URL, {
       method: "POST",
       mode: "cors",
       credentials: "include",
