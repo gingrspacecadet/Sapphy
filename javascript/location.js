@@ -1,5 +1,5 @@
 // Assuming countries.json is in the same directory
-fetch('countries.json')
+fetch('../countries.json')
   .then(response => response.json())
   .then(data => {
     const countrySelect = document.getElementById('country');
