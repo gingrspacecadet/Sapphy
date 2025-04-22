@@ -1,4 +1,4 @@
-let MATCHES_URL = "https://sapphy.pages.dev/api/get_matches";
+let MATCHES_URL = "https://sapphy.pages.dev/api/record_swipe";
 
 async function fetchMatches() {
   try {
