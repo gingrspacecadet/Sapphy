@@ -62,7 +62,7 @@ async function handleRegister(event) {
     }
 
     if (response.ok) {
-      window.location.href = "login.html";
+      window.location.href = "pages/login.html";
     } else {
       alert(result.error || "❌ Registration failed.");
     }
@@ -110,7 +110,7 @@ async function handleLogin(event) {
     }
 
     if (response.ok) {
-      window.location.href = result.redirectUrl || "app.html";
+      window.location.href = result.redirectUrl || "pages/app.html";
     } else {
       alert(result.error || "Login failed.");
     }
