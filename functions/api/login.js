@@ -65,7 +65,6 @@ export async function onRequest(context) {
             return new Response(JSON.stringify({
                 message: "Logged in",
                 success: true,
-                redirectUrl: "/app.html"
             }), { status: 200, headers });      
         }
     }

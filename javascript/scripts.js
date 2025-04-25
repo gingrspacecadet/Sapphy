@@ -110,7 +110,7 @@ async function handleLogin(event) {
     }
 
     if (response.ok) {
-      window.location.href = result.redirectUrl || "pages/app.html";
+      window.location.href = "pages/app.html";
     } else {
       alert(result.error || "Login failed.");
     }
