@@ -125,7 +125,7 @@ async function fetchMatches() {
         console.log("Match email:", targetEmail);
         console.log("Swipe action:", action);
 
-        const response = await fetch(MATCHES_URL, {
+        const response = await fetch("https://sapphy.pages.dev/api/record_swipe", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
