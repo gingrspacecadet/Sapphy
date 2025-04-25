@@ -23,7 +23,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     for (const user of matches) {
       const card = document.createElement("div");
-      card.className = "card";
+      card.className = "match-card";
       card.innerHTML = `
         <h3>${user.fname} ${user.lname} (${user.email})</h3>
         <p>${user.age} • ${user.city}, ${user.country}</p>
