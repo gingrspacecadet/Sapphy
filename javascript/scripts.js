@@ -35,9 +35,16 @@ async function handleRegister(event) {
 
   // Lookup full country name and city coordinates
   const fullCountryName = countryNames[country];
-  const cityData = cities.find(c => c.name === city && c.country === country);
-  const cityLat = cityData ? cityData.lat : null;
-  const cityLng = cityData ? cityData.lng : null;
+  const cityData = cities.filter(c => c.country === country);  // Make sure we're matching by country code
+  console.log("Filtered cities:", cityData); // Check if cities are being correctly filtered
+  
+  const cityMatch = cityData.find(c => c.name === city); // Match the selected city
+  const cityLat = cityMatch ? cityMatch.lat : null;
+  const cityLng = cityMatch ? cityMatch.lng : null;
+
+  console.log(`Selected country: ${fullCountryName}`);
+  console.log(`Selected city: ${city}`);
+  console.log(`City match found: ${cityMatch ? "Yes" : "No"}`);
 
   // If city or country data is missing
   if (!fullCountryName || !cityLat || !cityLng) {
@@ -93,6 +100,7 @@ async function handleRegister(event) {
     alert("Network error: check your console for details.");
   }
 }
+
 
 loadCountryData();
 
