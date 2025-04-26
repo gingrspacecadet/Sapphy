@@ -2,6 +2,7 @@
     "name": "mutual-match-mailer",
     "main": "functions/scheduled/mutual_match_mailer.js",
     "compatibility_date": "2025-04-26",
+    "type": "esm",
     "account_id": "e6aba92e9aa0421804f64f17b0e07e26",
     "workers_dev": true,
     "triggers": {

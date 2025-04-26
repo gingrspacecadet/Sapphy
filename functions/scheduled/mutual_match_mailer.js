@@ -49,3 +49,5 @@ export async function scheduled(event, env, ctx) {
       }),
     });
   }  
+
+  export default { scheduled };
