@@ -63,7 +63,8 @@ async function handleRegister(event) {
     city,
     email,
     password,
-    cityLat,
+    latitude: parseFloat(cityLat),
+    longitude: parseFloat(cityLng),
     cityLng
   };
 
