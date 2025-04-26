@@ -84,6 +84,4 @@ async function getMutualMatches(userEmail, env) {
     return count;
 }
 
-// Ensure `fetch` is exported explicitly
-export { fetch };
 export default { scheduled };
