@@ -7,9 +7,6 @@
     "triggers": {
       "crons": ["0 6 * * *"]
     },
-    "vars": {
-      "RESEND_API_KEY": "re_HBerjfmn_3be1LwPpdHp6B55tMcYbtard"
-    },
     "d1_databases": [
       {
         "binding": "DB",
