@@ -5,14 +5,14 @@ export async function onRequest(context) {
     const { method } = request;
   
     if (method === "OPTIONS") {
-      return new Response(null, { status: 204 });
+        return new Response(null, { status: 204 });
     }
   
     if (!env.DB) {
-      return new Response(JSON.stringify({ error: "DB not configured" }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
+        return new Response(JSON.stringify({ error: "DB not configured" }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+        });
     }
   
     if (method === "GET") {
@@ -26,18 +26,45 @@ export async function onRequest(context) {
         }
         
         try {
-            // Get users that the current user hasn't swiped on (liked or noped)
+            // Fetch the user's latitude and longitude first
+            const { latitude, longitude } = await env.DB.prepare(
+                `SELECT latitude, longitude FROM users WHERE email = ?`
+            ).bind(user.email).first();
+
+            if (latitude === null || longitude === null) {
+                return new Response(JSON.stringify({ error: "User location not available" }), {
+                    status: 400,
+                    headers: { "Content-Type": "application/json" },
+                });
+            }
+
+            // Get users that match seeking criteria, excluding already swiped users, sorted by distance
             const matches = await env.DB.prepare(
-                `SELECT * FROM users 
-                WHERE gender = ? AND email != ? 
-                AND email NOT IN (SELECT match_email FROM swipes WHERE user_email = ?)`
-            ).bind(user.seeking, user.email, user.email).all();
+                `SELECT *,
+                (
+                    6371 * acos(
+                        cos(radians(?)) *
+                        cos(radians(latitude)) *
+                        cos(radians(longitude) - radians(?)) +
+                        sin(radians(?)) *
+                        sin(radians(latitude))
+                    )
+                ) AS distance
+                FROM users 
+                WHERE gender = ?
+                  AND email != ? 
+                  AND email NOT IN (
+                      SELECT match_email FROM swipes WHERE user_email = ?
+                  )
+                ORDER BY distance ASC`
+            ).bind(latitude, longitude, latitude, user.seeking, user.email, user.email).all();
         
             return new Response(JSON.stringify(matches.results), {
                 status: 200,
                 headers: { "Content-Type": "application/json" },
             });
         } catch (err) {
+            console.error(err);
             return new Response(JSON.stringify({ error: "Internal Server Error" }), {
                 status: 500,
                 headers: { "Content-Type": "application/json" },

@@ -1,9 +1,17 @@
 const REGISTER_URL = "https://sapphy.pages.dev/api/register";
 const LOGIN_URL = "https://sapphy.pages.dev/api/login";
 
-//
-// -- Registration Handler --
-//
+// Fetch country names and cities data
+let countryNames = {};
+let cities = [];
+
+async function loadCountryData() {
+  const countryResponse = await fetch("/data/countryNames.json");
+  countryNames = await countryResponse.json();
+  const citiesResponse = await fetch("/data/cities.json");
+  cities = await citiesResponse.json();
+}
+
 async function handleRegister(event) {
   event.preventDefault();  // Prevent form from refreshing the page
   console.log("🔔 Register handler fired");
@@ -25,6 +33,18 @@ async function handleRegister(event) {
     return;
   }
 
+  // Lookup full country name and city coordinates
+  const fullCountryName = countryNames[country];
+  const cityData = cities.find(c => c.name === city && c.country === country);
+  const cityLat = cityData ? cityData.lat : null;
+  const cityLng = cityData ? cityData.lng : null;
+
+  // If city or country data is missing
+  if (!fullCountryName || !cityLat || !cityLng) {
+    alert("Invalid country or city selection.");
+    return;
+  }
+
   const payload = {
     action: "register",
     fname,
@@ -32,10 +52,12 @@ async function handleRegister(event) {
     gender,
     seeking,
     age,
-    country,
+    country: fullCountryName,  // Save full country name
     city,
     email,
-    password
+    password,
+    cityLat,
+    cityLng
   };
 
   console.log("📦 Register payload:", payload);
@@ -71,6 +93,8 @@ async function handleRegister(event) {
     alert("Network error: check your console for details.");
   }
 }
+
+loadCountryData();
 
 //
 // -- Login Handler (email-based) --
