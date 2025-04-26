@@ -50,38 +50,4 @@ async function sendEmail(userEmail, matchCount, env) {
     });
 }
 
-// Fetch function for testing
-export async function fetch(request, env, ctx) {
-    // Trigger the email sending function manually for testing
-    const userEmail = 'jackrawlings2011@gmail.com';
-    const matchCount = await getMutualMatches(userEmail, env);
-
-    if (matchCount > 0) {
-        await sendEmail(userEmail, matchCount, env);
-        return new Response("Test email sent!", { status: 200 });
-    }
-
-    return new Response("No mutual matches found for testing.", { status: 200 });
-}
-
-async function getMutualMatches(userEmail, env) {
-    const matchesQuery = `
-        SELECT COUNT(*) AS count
-        FROM swipes s1
-        JOIN swipes s2
-          ON s1.match_email = s2.user_email
-         AND s1.user_email  = s2.match_email
-        WHERE s1.user_email = ?
-          AND s1.swipe_type = 'like'
-          AND s2.swipe_type = 'like'
-    `;
-
-    const { count } = await env.DB
-        .prepare(matchesQuery)
-        .bind(userEmail)
-        .first();
-
-    return count;
-}
-
 export default { scheduled };
