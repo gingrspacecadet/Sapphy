@@ -8,7 +8,7 @@
       "crons": ["0 6 * * *"]
     },
     "vars": {
-      "RESEND_API_KEY": "your-resend-api-key-here"
+      "RESEND_API_KEY": "re_HBerjfmn_3be1LwPpdHp6B55tMcYbtard"
     },
     "d1_databases": [
       {
