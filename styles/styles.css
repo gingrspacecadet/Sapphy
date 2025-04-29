@@ -294,24 +294,54 @@ textarea {
 
 .dropdown-container {
   position: relative;
+  margin-bottom: 1rem; /* Add spacing between dropdown and search input */
+}
+
+.dropdown-container .search-input {
+  width: 100%;
+  margin-top: 0.5rem; /* Add spacing above the search input */
+  padding: 10px;
+  border: 1px solid var(--overlay);
+  border-radius: 4px;
+  background-color: var(--base);
+  color: var(--text);
+  font-size: 16px;
 }
 
 .dropdown-container select {
   width: 100%;
+  padding: 10px;
+  border: 1px solid var(--overlay);
+  border-radius: 4px;
+  background-color: var(--base);
+  color: var(--text);
+  font-size: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
-.dropdown-container .search-input {
-  position: absolute;
+.dropdown-wrapper {
+  position: relative;
+}
+
+.search-input.hidden {
+  display: none;
+}
+
+.search-input {
   top: 0;
   left: 0;
   width: 100%;
   box-sizing: border-box;
   z-index: 1;
-  padding: 5px;
-  border: 1px solid #ccc;
+  padding: 10px;
+  border: 1px solid var(--overlay);
   border-radius: 4px;
+  background-color: var(--base);
+  color: var(--text);
 }
 
-.dropdown-container select {
-  margin-top: 30px;
+.dropdown-wrapper select {
+  margin-top: 0; /* Reset margin since search input will overlap */
 }

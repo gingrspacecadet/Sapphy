@@ -33,18 +33,18 @@
       <div class="location-row">
         <div class="input-group dropdown-container">
           <label for="country">Country:</label>
-          <input type="text" id="countrySearch" class="search-input" placeholder="Search country..." oninput="filterOptions('country', 'countrySearch')"/>
           <select id="country" name="country" required>
-            <option value="" disabled selected></option>
+            <option value="" disabled selected>Select a country</option>
           </select>
+          <input type="text" id="countrySearch" class="search-input" placeholder="Search country..." oninput="filterOptions('country', 'countrySearch')"/>
         </div>
       
         <div class="input-group dropdown-container">
           <label for="city">City:</label>
-          <input type="text" id="citySearch" class="search-input" placeholder="Search city..." oninput="filterOptions('city', 'citySearch')"/>
           <select id="city" name="city" required disabled>
-            <option value="" disabled selected></option>
+            <option value="" disabled selected>Select a city</option>
           </select>
+          <input type="text" id="citySearch" class="search-input" placeholder="Search city..." oninput="filterOptions('city', 'citySearch')"/>
         </div>
       </div>
       
@@ -56,7 +56,8 @@
 
       <div class="input-group">
         <label for="bio">Bio:</label>
-        <textarea id="bio" name="bio" rows="4" placeholder="Tell us about yourself..." required></textarea>
+        <textarea id="settings-form" name="bio" rows="4" placeholder="Tell us about yourself..." maxlength="256" required></textarea>
+        <p><span id="char-count">256</span>/256</p>
       </div>
 
       <button type="submit" onclick="console.log('✅ Submit button clicked')">Register</button>
@@ -67,7 +68,7 @@
 
   <script src="../javascript/scripts.js"></script>
   <script src="../javascript/location.js"></script>
-  <script src="../javascript/update_bio.js"></script>
+  <script src="../javascript/settings.js"></script>
   <script>
     const ageSelect = document.getElementById('age');
     for (let i = 18; i <= 99; i++) {
@@ -89,6 +90,11 @@
         option.style.display = option.textContent.toLowerCase().includes(searchValue) ? '' : 'none';
       });
     }
+
+    function toggleSearch(searchId, isVisible) {
+      const searchInput = document.getElementById(searchId);
+      searchInput.classList.toggle('hidden', !isVisible);
+    }
   </script>
   
   <script>
@@ -101,7 +107,15 @@
         });
       }
     });
-  </script>    
+  </script>
+  <script>
+      const textarea = document.getElementById('settings-form');
+      const count = document.getElementById('char-count');
+  
+      textarea.addEventListener('input', () => {
+          count.textContent = 256 - textarea.value.length;
+      });
+  </script>  
 
   <footer>
     <p>&copy; 2025 Sapphy. All rights reserved.</p>

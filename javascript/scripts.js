@@ -154,6 +154,27 @@ async function handleLogin(event) {
 }
 
 //
+// Toggle search input visibility
+//
+function toggleSearch(inputId, show) {
+  const searchInput = document.getElementById(inputId);
+  if (show) {
+    searchInput.classList.remove('hidden');
+    searchInput.focus();
+  } else {
+    searchInput.classList.add('hidden');
+  }
+}
+
+//
+// Show search bar
+//
+function showSearchBar(searchId) {
+  const searchInput = document.getElementById(searchId);
+  searchInput.focus();
+}
+
+//
 // — Attach event listeners once DOM is ready —
 //
 window.addEventListener("DOMContentLoaded", () => {
