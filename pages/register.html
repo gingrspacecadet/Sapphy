@@ -23,27 +23,6 @@
         </div>
       </div>
 
-      <div class="gender-row">
-        <div class="input-group">
-          <label for="gender">Gender:</label>
-          <select id="gender" name="gender" required>
-            <option value="" disabled selected></option>
-            <option value="trans">Trans</option>
-            <option value="cis">Cis</option>
-          </select>
-        </div>
-      
-        <div class="input-group">
-          <label for="seeking">Seeking:</label>
-          <select id="seeking" name="seeking" required>
-            <option value="" disabled selected></option>
-            <option value="trans">Trans</option>
-            <option value="cis">Cis</option>
-            <option value="both">Both</option>
-          </select>
-        </div>
-      </div>
-
       <div class="input-group">
         <label for="age">Age:</label>
         <select id="age" name="age" required>
@@ -51,17 +30,18 @@
         </select>
       </div>
       
-      
       <div class="location-row">
-        <div class="input-group">
+        <div class="input-group dropdown-container">
           <label for="country">Country:</label>
+          <input type="text" id="countrySearch" class="search-input" placeholder="Search country..." oninput="filterOptions('country', 'countrySearch')"/>
           <select id="country" name="country" required>
             <option value="" disabled selected></option>
           </select>
         </div>
       
-        <div class="input-group">
+        <div class="input-group dropdown-container">
           <label for="city">City:</label>
+          <input type="text" id="citySearch" class="search-input" placeholder="Search city..." oninput="filterOptions('city', 'citySearch')"/>
           <select id="city" name="city" required disabled>
             <option value="" disabled selected></option>
           </select>
@@ -74,6 +54,11 @@
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" required/>
 
+      <div class="input-group">
+        <label for="bio">Bio:</label>
+        <textarea id="bio" name="bio" rows="4" placeholder="Tell us about yourself..." required></textarea>
+      </div>
+
       <button type="submit" onclick="console.log('✅ Submit button clicked')">Register</button>
       <p>Already have an account? <a href="login.html">Login</a></p>
       <p>By registering, you agree to our <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a>.</p>
@@ -82,6 +67,7 @@
 
   <script src="../javascript/scripts.js"></script>
   <script src="../javascript/location.js"></script>
+  <script src="../javascript/update_bio.js"></script>
   <script>
     const ageSelect = document.getElementById('age');
     for (let i = 18; i <= 99; i++) {
@@ -95,6 +81,14 @@
     option100plus.value = "100+";
     option100plus.textContent = "100+";
     ageSelect.appendChild(option100plus);
+
+    function filterOptions(selectId, searchId) {
+      const select = document.getElementById(selectId);
+      const searchValue = document.getElementById(searchId).value.toLowerCase();
+      Array.from(select.options).forEach(option => {
+        option.style.display = option.textContent.toLowerCase().includes(searchValue) ? '' : 'none';
+      });
+    }
   </script>
   
   <script>
@@ -107,7 +101,7 @@
         });
       }
     });
-    </script>    
+  </script>    
 
   <footer>
     <p>&copy; 2025 Sapphy. All rights reserved.</p>

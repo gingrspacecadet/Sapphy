@@ -274,13 +274,44 @@ form h1 {
 }
 
 textarea {
-  height: 30vh;
-  font-size: 24px;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid var(--overlay);
+  border-radius: 4px;
+  background-color: var(--base);
+  color: var(--text);
+  font-size: 16px;
   resize: none;
+  height: 30vh; /* Matches settings-form textarea height */
 }
 
 .match-card .bio {
   margin: 10px 0;
   font-style: italic;
   color: #666;
+}
+
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-container select {
+  width: 100%;
+}
+
+.dropdown-container .search-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 1;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.dropdown-container select {
+  margin-top: 30px;
 }
